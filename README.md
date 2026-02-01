@@ -49,13 +49,33 @@ A retro BBS-style terminal interface for browsing financial markets data from in
 
 ## 🚀 Installation
 
-### Option 1: Install from PyPI (Recommended)
+### Quick Install (Recommended)
+
+One-line installation with curl:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/linproxy/investing-com-cli/main/install.sh | bash
+```
+
+This will:
+- ✅ Check Python version (requires 3.7+)
+- ✅ Create an isolated virtual environment
+- ✅ Install all dependencies
+- ✅ Set up the `investing-bbs` command
+- ✅ Install to `~/.local/bin` (no sudo required)
+
+### Alternative Methods
+
+<details>
+<summary>Install from PyPI</summary>
 
 ```bash
 pip install investing-bbs
 ```
+</details>
 
-### Option 2: Install from Source
+<details>
+<summary>Install from Source</summary>
 
 ```bash
 # Clone the repository
@@ -65,11 +85,29 @@ cd investing-com-cli
 # Install
 pip install -e .
 ```
+</details>
 
-### Option 3: Direct install with pip
+<details>
+<summary>Direct install with pip</summary>
 
 ```bash
 pip install git+https://github.com/linproxy/investing-com-cli.git
+```
+</details>
+
+### Uninstall
+
+If you installed with curl:
+
+```bash
+rm -rf ~/.local/share/investing-bbs
+rm ~/.local/bin/investing-bbs
+```
+
+If you installed with pip:
+
+```bash
+pip uninstall investing-bbs
 ```
 
 ## 🎮 Usage
