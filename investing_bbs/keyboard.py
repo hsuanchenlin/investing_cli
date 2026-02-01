@@ -103,7 +103,7 @@ class KeyboardInput:
                     print(line)
 
             print("└────────────────────────────────────────────────────────────────────────────┘")
-            print("\n[↑/↓] Navigate  [Enter/Number] Select  [Q] Quit")
+            print("\n[↑/↓] Navigate  [←] Back  [→/Enter/Number] Select  [Q] Quit")
 
         # Main loop
         while True:
@@ -117,10 +117,11 @@ class KeyboardInput:
                 current = (current - 1) % len(items)
             elif key == KeyboardInput.DOWN:
                 current = (current + 1) % len(items)
-            elif key == KeyboardInput.LEFT or key == KeyboardInput.RIGHT:
-                # Ignore horizontal navigation
-                continue
-            elif key == KeyboardInput.ENTER:
+            elif key == KeyboardInput.LEFT:
+                # Left arrow = go back (return 'Q' to go to main menu)
+                return 'Q'
+            elif key == KeyboardInput.RIGHT or key == KeyboardInput.ENTER:
+                # Right arrow or Enter = select current item
                 return items[current][0]
             elif key.upper() == 'Q':
                 return 'Q'

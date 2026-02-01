@@ -135,19 +135,20 @@ class InvestingBBS:
             except Exception as e:
                 console.print(f"[red]Error fetching data: {e}[/]")
 
-            self.ui.draw_footer("Press ENTER to return | R to refresh")
+            self.ui.draw_footer("Press ← /ENTER to return | →/R to refresh | Q to quit")
             choice = KeyboardInput.get_key()
 
-            # Ignore arrow keys
-            if choice in [KeyboardInput.UP, KeyboardInput.DOWN,
-                         KeyboardInput.LEFT, KeyboardInput.RIGHT]:
+            # Handle arrow keys
+            if choice == KeyboardInput.UP or choice == KeyboardInput.DOWN:
+                # Ignore up/down arrows on data screens
                 continue
-
-            if choice == KeyboardInput.ENTER:
+            elif choice == KeyboardInput.LEFT or choice == KeyboardInput.ENTER:
+                # Left arrow or Enter = go back to main menu
                 self.current_menu = "main"
                 self.ui.clear_screen()
                 break
-            elif choice.upper() == "R":
+            elif choice == KeyboardInput.RIGHT or choice.upper() == "R":
+                # Right arrow or R = refresh
                 self.ui.clear_screen()
             elif choice.upper() == "Q":
                 self.current_menu = "main"
@@ -165,19 +166,20 @@ class InvestingBBS:
             except Exception as e:
                 console.print(f"[red]Error fetching data: {e}[/]")
 
-            self.ui.draw_footer("Press ENTER to return | R to refresh")
+            self.ui.draw_footer("Press ← /ENTER to return | →/R to refresh | Q to quit")
             choice = KeyboardInput.get_key()
 
-            # Ignore arrow keys
-            if choice in [KeyboardInput.UP, KeyboardInput.DOWN,
-                         KeyboardInput.LEFT, KeyboardInput.RIGHT]:
+            # Handle arrow keys
+            if choice == KeyboardInput.UP or choice == KeyboardInput.DOWN:
+                # Ignore up/down arrows on data screens
                 continue
-
-            if choice == KeyboardInput.ENTER:
+            elif choice == KeyboardInput.LEFT or choice == KeyboardInput.ENTER:
+                # Left arrow or Enter = go back to main menu
                 self.current_menu = "main"
                 self.ui.clear_screen()
                 break
-            elif choice.upper() == "R":
+            elif choice == KeyboardInput.RIGHT or choice.upper() == "R":
+                # Right arrow or R = refresh
                 self.ui.clear_screen()
             elif choice.upper() == "Q":
                 self.current_menu = "main"
@@ -195,19 +197,20 @@ class InvestingBBS:
             except Exception as e:
                 console.print(f"[red]Error fetching data: {e}[/]")
 
-            self.ui.draw_footer("Press ENTER to return | R to refresh")
+            self.ui.draw_footer("Press ← /ENTER to return | →/R to refresh | Q to quit")
             choice = KeyboardInput.get_key()
 
-            # Ignore arrow keys
-            if choice in [KeyboardInput.UP, KeyboardInput.DOWN,
-                         KeyboardInput.LEFT, KeyboardInput.RIGHT]:
+            # Handle arrow keys
+            if choice == KeyboardInput.UP or choice == KeyboardInput.DOWN:
+                # Ignore up/down arrows on data screens
                 continue
-
-            if choice == KeyboardInput.ENTER:
+            elif choice == KeyboardInput.LEFT or choice == KeyboardInput.ENTER:
+                # Left arrow or Enter = go back to main menu
                 self.current_menu = "main"
                 self.ui.clear_screen()
                 break
-            elif choice.upper() == "R":
+            elif choice == KeyboardInput.RIGHT or choice.upper() == "R":
+                # Right arrow or R = refresh
                 self.ui.clear_screen()
             elif choice.upper() == "Q":
                 self.current_menu = "main"
@@ -225,19 +228,20 @@ class InvestingBBS:
             except Exception as e:
                 console.print(f"[red]Error fetching data: {e}[/]")
 
-            self.ui.draw_footer("Press ENTER to return | R to refresh")
+            self.ui.draw_footer("Press ← /ENTER to return | →/R to refresh | Q to quit")
             choice = KeyboardInput.get_key()
 
-            # Ignore arrow keys
-            if choice in [KeyboardInput.UP, KeyboardInput.DOWN,
-                         KeyboardInput.LEFT, KeyboardInput.RIGHT]:
+            # Handle arrow keys
+            if choice == KeyboardInput.UP or choice == KeyboardInput.DOWN:
+                # Ignore up/down arrows on data screens
                 continue
-
-            if choice == KeyboardInput.ENTER:
+            elif choice == KeyboardInput.LEFT or choice == KeyboardInput.ENTER:
+                # Left arrow or Enter = go back to main menu
                 self.current_menu = "main"
                 self.ui.clear_screen()
                 break
-            elif choice.upper() == "R":
+            elif choice == KeyboardInput.RIGHT or choice.upper() == "R":
+                # Right arrow or R = refresh
                 self.ui.clear_screen()
             elif choice.upper() == "Q":
                 self.current_menu = "main"
@@ -255,19 +259,20 @@ class InvestingBBS:
             except Exception as e:
                 console.print(f"[red]Error fetching data: {e}[/]")
 
-            self.ui.draw_footer("Press ENTER to return | R to refresh")
+            self.ui.draw_footer("Press ← /ENTER to return | →/R to refresh | Q to quit")
             choice = KeyboardInput.get_key()
 
-            # Ignore arrow keys
-            if choice in [KeyboardInput.UP, KeyboardInput.DOWN,
-                         KeyboardInput.LEFT, KeyboardInput.RIGHT]:
+            # Handle arrow keys
+            if choice == KeyboardInput.UP or choice == KeyboardInput.DOWN:
+                # Ignore up/down arrows on data screens
                 continue
-
-            if choice == KeyboardInput.ENTER:
+            elif choice == KeyboardInput.LEFT or choice == KeyboardInput.ENTER:
+                # Left arrow or Enter = go back to main menu
                 self.current_menu = "main"
                 self.ui.clear_screen()
                 break
-            elif choice.upper() == "R":
+            elif choice == KeyboardInput.RIGHT or choice.upper() == "R":
+                # Right arrow or R = refresh
                 self.ui.clear_screen()
             elif choice.upper() == "Q":
                 self.current_menu = "main"
