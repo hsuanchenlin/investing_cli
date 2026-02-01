@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="investing-bbs",
-    version="1.0.0",
+    version="1.0.1",
     author="linproxy",
     author_email="",
     description="A BBS-style CLI for viewing financial markets data",
@@ -32,6 +32,7 @@ setup(
         "rich>=13.0.0",
         "requests>=2.28.0",
         "python-dateutil>=2.8.0",
+        "readchar>=4.0.0",
     ],
     entry_points={
         "console_scripts": [

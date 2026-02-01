@@ -22,6 +22,7 @@ from datetime import datetime
 
 from .api import InvestingAPI
 from .ui import BBSInterface
+from .keyboard import KeyboardInput
 
 console = Console()
 
@@ -88,7 +89,7 @@ class InvestingBBS:
     def main_menu(self):
         """Display main BBS menu"""
         self.ui.draw_header("MAIN MENU")
-        
+
         menu_items = [
             ("1", "Market Overview", "View major market indices"),
             ("2", "Cryptocurrency", "Crypto prices and trends"),
@@ -98,12 +99,12 @@ class InvestingBBS:
             ("6", "Search Stocks", "Find specific stocks"),
             ("Q", "Quit", "Exit the terminal"),
         ]
-        
-        self.ui.draw_menu(menu_items)
+
         self.ui.draw_footer(f"User: {self.user} | {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        
-        choice = input("\n[?] Select option: ").strip().upper()
-        
+
+        # Use arrow key navigation
+        choice = KeyboardInput.menu_select(menu_items)
+
         menu_map = {
             "1": "markets",
             "2": "crypto",
@@ -113,7 +114,7 @@ class InvestingBBS:
             "6": "stocks",
             "Q": "quit",
         }
-        
+
         if choice in menu_map:
             if menu_map[choice] == "quit":
                 self.running = False
@@ -126,104 +127,119 @@ class InvestingBBS:
     def markets_menu(self):
         """Display major markets overview"""
         self.ui.draw_header("MARKET OVERVIEW")
-        
+
         try:
             data = self.api.get_major_indices()
             self.ui.draw_quote_table("Major Indices", data)
         except Exception as e:
             console.print(f"[red]Error fetching data: {e}[/]")
-            
-        self.ui.draw_footer("Press ENTER to return | R to refresh")
-        choice = input().strip().upper()
-        
-        if choice == "":
+
+        self.ui.draw_footer("Press ENTER to return | R to refresh | Q to quit")
+        choice = KeyboardInput.get_key()
+
+        if choice == KeyboardInput.ENTER or choice == "":
             self.current_menu = "main"
             self.ui.clear_screen()
-        elif choice == "R":
+        elif choice.upper() == "R":
+            self.ui.clear_screen()
+        elif choice.upper() == "Q":
+            self.current_menu = "main"
             self.ui.clear_screen()
             
     def crypto_menu(self):
         """Display cryptocurrency data"""
         self.ui.draw_header("CRYPTOCURRENCY MARKETS")
-        
+
         try:
             data = self.api.get_crypto()
             self.ui.draw_quote_table("Top Cryptocurrencies", data)
         except Exception as e:
             console.print(f"[red]Error fetching data: {e}[/]")
-            
-        self.ui.draw_footer("Press ENTER to return | R to refresh")
-        choice = input().strip().upper()
-        
-        if choice == "":
+
+        self.ui.draw_footer("Press ENTER to return | R to refresh | Q to quit")
+        choice = KeyboardInput.get_key()
+
+        if choice == KeyboardInput.ENTER or choice == "":
             self.current_menu = "main"
             self.ui.clear_screen()
-        elif choice == "R":
+        elif choice.upper() == "R":
+            self.ui.clear_screen()
+        elif choice.upper() == "Q":
+            self.current_menu = "main"
             self.ui.clear_screen()
             
     def forex_menu(self):
         """Display forex rates"""
         self.ui.draw_header("FOREX / CURRENCY MARKETS")
-        
+
         try:
             data = self.api.get_forex()
             self.ui.draw_quote_table("Major Currency Pairs", data)
         except Exception as e:
             console.print(f"[red]Error fetching data: {e}[/]")
-            
-        self.ui.draw_footer("Press ENTER to return | R to refresh")
-        choice = input().strip().upper()
-        
-        if choice == "":
+
+        self.ui.draw_footer("Press ENTER to return | R to refresh | Q to quit")
+        choice = KeyboardInput.get_key()
+
+        if choice == KeyboardInput.ENTER or choice == "":
             self.current_menu = "main"
             self.ui.clear_screen()
-        elif choice == "R":
+        elif choice.upper() == "R":
+            self.ui.clear_screen()
+        elif choice.upper() == "Q":
+            self.current_menu = "main"
             self.ui.clear_screen()
             
     def commodities_menu(self):
         """Display commodities data"""
         self.ui.draw_header("COMMODITIES")
-        
+
         try:
             data = self.api.get_commodities()
             self.ui.draw_quote_table("Commodity Prices", data)
         except Exception as e:
             console.print(f"[red]Error fetching data: {e}[/]")
-            
-        self.ui.draw_footer("Press ENTER to return | R to refresh")
-        choice = input().strip().upper()
-        
-        if choice == "":
+
+        self.ui.draw_footer("Press ENTER to return | R to refresh | Q to quit")
+        choice = KeyboardInput.get_key()
+
+        if choice == KeyboardInput.ENTER or choice == "":
             self.current_menu = "main"
             self.ui.clear_screen()
-        elif choice == "R":
+        elif choice.upper() == "R":
+            self.ui.clear_screen()
+        elif choice.upper() == "Q":
+            self.current_menu = "main"
             self.ui.clear_screen()
             
     def indices_menu(self):
         """Display world indices"""
         self.ui.draw_header("WORLD INDICES")
-        
+
         try:
             data = self.api.get_world_indices()
             self.ui.draw_quote_table("Global Stock Indices", data)
         except Exception as e:
             console.print(f"[red]Error fetching data: {e}[/]")
-            
-        self.ui.draw_footer("Press ENTER to return | R to refresh")
-        choice = input().strip().upper()
-        
-        if choice == "":
+
+        self.ui.draw_footer("Press ENTER to return | R to refresh | Q to quit")
+        choice = KeyboardInput.get_key()
+
+        if choice == KeyboardInput.ENTER or choice == "":
             self.current_menu = "main"
             self.ui.clear_screen()
-        elif choice == "R":
+        elif choice.upper() == "R":
+            self.ui.clear_screen()
+        elif choice.upper() == "Q":
+            self.current_menu = "main"
             self.ui.clear_screen()
             
     def stocks_menu(self):
         """Search and display stocks"""
         self.ui.draw_header("STOCK SEARCH")
-        
-        symbol = input("\n[?] Enter stock symbol (e.g., AAPL): ").strip().upper()
-        
+
+        symbol = KeyboardInput.get_input("\n[?] Enter stock symbol (e.g., AAPL): ").strip().upper()
+
         if symbol:
             try:
                 data = self.api.search_stock(symbol)
@@ -233,9 +249,9 @@ class InvestingBBS:
                     console.print(f"[yellow]No results found for '{symbol}'[/]")
             except Exception as e:
                 console.print(f"[red]Error fetching data: {e}[/]")
-                
-        self.ui.draw_footer("Press ENTER to return")
-        input()
+
+        self.ui.draw_footer("Press any key to return")
+        KeyboardInput.get_key()
         self.current_menu = "main"
         self.ui.clear_screen()
 
