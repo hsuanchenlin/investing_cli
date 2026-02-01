@@ -26,8 +26,6 @@ class KeyboardInput:
         Returns:
             String representing the key pressed
         """
-        import select
-
         # Check if stdin is a TTY
         if not sys.stdin.isatty():
             # Fallback to regular input if not a TTY
@@ -44,32 +42,27 @@ class KeyboardInput:
 
             # Handle escape sequences (arrow keys, function keys, etc.)
             if ch == '\x1b':  # ESC
-                # Use select to check if more data is available (with small timeout)
-                # This distinguishes between ESC key and arrow keys
-                if select.select([sys.stdin], [], [], 0.1)[0]:
-                    ch2 = sys.stdin.read(1)
-                    if ch2 == '[':
-                        # Read the direction character
-                        if select.select([sys.stdin], [], [], 0.1)[0]:
-                            ch3 = sys.stdin.read(1)
-                            # Arrow keys
-                            if ch3 == 'A':
-                                return KeyboardInput.UP
-                            elif ch3 == 'B':
-                                return KeyboardInput.DOWN
-                            elif ch3 == 'C':
-                                return KeyboardInput.RIGHT
-                            elif ch3 == 'D':
-                                return KeyboardInput.LEFT
-                            # Handle other sequences if needed
-                            return '\x1b[' + ch3
-                        else:
-                            return '\x1b['
-                    else:
-                        # ESC followed by something else
-                        return KeyboardInput.ESC
+                # Read next 2 characters for arrow keys
+                # Arrow keys are 3-char sequences: ESC [ {A,B,C,D}
+                ch2 = sys.stdin.read(1)
+                if ch2 == '[':
+                    ch3 = sys.stdin.read(1)
+                    # Arrow keys
+                    if ch3 == 'A':
+                        return KeyboardInput.UP
+                    elif ch3 == 'B':
+                        return KeyboardInput.DOWN
+                    elif ch3 == 'C':
+                        return KeyboardInput.RIGHT
+                    elif ch3 == 'D':
+                        return KeyboardInput.LEFT
+                    # Other escape sequences
+                    elif ch3 in '0123456789':
+                        # Could be a longer sequence, but ignore for now
+                        return '\x1b[' + ch3
+                    return '\x1b[' + ch3
                 else:
-                    # Just ESC key by itself
+                    # ESC followed by something other than [
                     return KeyboardInput.ESC
 
             # Handle special characters
