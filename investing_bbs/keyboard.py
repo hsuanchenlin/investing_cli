@@ -25,7 +25,11 @@ class KeyboardInput:
         Returns:
             String representing the key pressed
         """
-        key = readchar.readkey()
+        try:
+            key = readchar.readkey()
+        except Exception as e:
+            # Fallback to regular input on error
+            return input()
 
         # Map readchar keys to our constants
         key_map = {
@@ -68,49 +72,59 @@ class KeyboardInput:
             The key of selected item, or None if cancelled
         """
         import os
-        first_draw = True
 
-        while True:
-            # Clear screen and redraw (simpler and more reliable than cursor positioning)
-            if not first_draw:
-                # Move cursor up and clear
-                lines_to_clear = len(items) + 4  # menu items + borders + help text
-                print(f'\033[{lines_to_clear}A', end='')  # Move cursor up
-                print('\033[J', end='')  # Clear from cursor to end of screen
-            first_draw = False
+        def clear_screen():
+            """Clear the terminal screen"""
+            os.system('clear' if os.name != 'nt' else 'cls')
 
-            # Draw menu with highlight
+        def draw_menu():
+            """Draw the menu with current selection highlighted"""
+            clear_screen()
+
+            # Draw header (match the BBS style from main menu)
+            print("╔" + "═" * 78 + "╗")
+            print("║" + " " * 78 + "║")
+            print("║" + " " * 30 + "◄ MAIN MENU ►" + " " * 35 + "║")
+            print("║" + " " * 78 + "║")
+            print("╚" + "═" * 78 + "╝")
+
+            # Draw menu items
             print("\n┌────────────────────────────────────────────────────────────────────────────┐")
 
             for i, (key, title, desc) in enumerate(items):
                 key_display = f"[{key}]"
 
                 if i == current:
-                    # Highlighted item
-                    line = f"│ ▶{key_display:<6} {title:<20} {desc:<40}     │"
+                    # Highlighted item with arrow
+                    line = f"│ ▶ {key_display:<6} {title:<20} {desc:<39}    │"
                     print(f"\033[7m{line}\033[0m")  # Reverse video
                 else:
-                    line = f"│  {key_display:<6} {title:<20} {desc:<40}     │"
+                    line = f"│   {key_display:<6} {title:<20} {desc:<39}    │"
                     print(line)
 
             print("└────────────────────────────────────────────────────────────────────────────┘")
-            print("\n[↑/↓] Navigate  [Enter/Number] Select  [Q] Quit", end='', flush=True)
+            print("\n[↑/↓] Navigate  [Enter/Number] Select  [Q] Quit")
+
+        # Main loop
+        while True:
+            draw_menu()
 
             # Get key
             key = KeyboardInput.get_key()
 
-            # Ignore left/right arrow keys
-            if key == KeyboardInput.LEFT or key == KeyboardInput.RIGHT:
-                continue
-            elif key == KeyboardInput.UP:
+            # Handle navigation
+            if key == KeyboardInput.UP:
                 current = (current - 1) % len(items)
             elif key == KeyboardInput.DOWN:
                 current = (current + 1) % len(items)
+            elif key == KeyboardInput.LEFT or key == KeyboardInput.RIGHT:
+                # Ignore horizontal navigation
+                continue
             elif key == KeyboardInput.ENTER:
                 return items[current][0]
             elif key.upper() == 'Q':
                 return 'Q'
-            elif key.isdigit() or key.isalpha():
+            elif len(key) == 1 and (key.isdigit() or key.isalpha()):
                 # Check if key matches any menu item
                 for item_key, _, _ in items:
                     if key.upper() == item_key.upper():
