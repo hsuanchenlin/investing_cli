@@ -54,7 +54,7 @@ A retro BBS-style terminal interface for browsing financial markets data from in
 One-line installation with curl:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/linproxy/investing-com-cli/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/hsuanchenlin/investing_cli/main/install.sh | bash
 ```
 
 This will:
@@ -79,8 +79,8 @@ pip install investing-bbs
 
 ```bash
 # Clone the repository
-git clone https://github.com/linproxy/investing-com-cli.git
-cd investing-com-cli
+git clone https://github.com/hsuanchenlin/investing_cli.git
+cd investing_cli
 
 # Install
 pip install -e .
@@ -91,7 +91,7 @@ pip install -e .
 <summary>Direct install with pip</summary>
 
 ```bash
-pip install git+https://github.com/linproxy/investing-com-cli.git
+pip install git+https://github.com/hsuanchenlin/investing_cli.git
 ```
 </details>
 

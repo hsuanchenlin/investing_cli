@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # investing-bbs installer script
-# Usage: curl -fsSL https://raw.githubusercontent.com/linproxy/investing-com-cli/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/hsuanchenlin/investing_cli/main/install.sh | bash
 
 set -e
 
@@ -13,7 +13,7 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO_URL="https://github.com/linproxy/investing-com-cli"
+REPO_URL="https://github.com/hsuanchenlin/investing_cli"
 INSTALL_DIR="$HOME/.local/share/investing-bbs"
 BIN_DIR="$HOME/.local/bin"
 VENV_DIR="$INSTALL_DIR/venv"

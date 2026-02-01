@@ -11,7 +11,7 @@ setup(
     description="A BBS-style CLI for viewing financial markets data",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/linproxy/investing-com-cli",
+    url="https://github.com/hsuanchenlin/investing_cli",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
