@@ -26,31 +26,50 @@ class KeyboardInput:
         Returns:
             String representing the key pressed
         """
+        import select
+
+        # Check if stdin is a TTY
+        if not sys.stdin.isatty():
+            # Fallback to regular input if not a TTY
+            return input()
+
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
 
         try:
             tty.setraw(fd)
+
+            # Read first character
             ch = sys.stdin.read(1)
 
             # Handle escape sequences (arrow keys, function keys, etc.)
             if ch == '\x1b':  # ESC
-                # Read the next two characters
-                ch2 = sys.stdin.read(1)
-                if ch2 == '[':
-                    ch3 = sys.stdin.read(1)
-                    # Arrow keys
-                    if ch3 == 'A':
-                        return KeyboardInput.UP
-                    elif ch3 == 'B':
-                        return KeyboardInput.DOWN
-                    elif ch3 == 'C':
-                        return KeyboardInput.RIGHT
-                    elif ch3 == 'D':
-                        return KeyboardInput.LEFT
-                    # Handle other sequences if needed
-                    return '\x1b[' + ch3
+                # Use select to check if more data is available (with small timeout)
+                # This distinguishes between ESC key and arrow keys
+                if select.select([sys.stdin], [], [], 0.1)[0]:
+                    ch2 = sys.stdin.read(1)
+                    if ch2 == '[':
+                        # Read the direction character
+                        if select.select([sys.stdin], [], [], 0.1)[0]:
+                            ch3 = sys.stdin.read(1)
+                            # Arrow keys
+                            if ch3 == 'A':
+                                return KeyboardInput.UP
+                            elif ch3 == 'B':
+                                return KeyboardInput.DOWN
+                            elif ch3 == 'C':
+                                return KeyboardInput.RIGHT
+                            elif ch3 == 'D':
+                                return KeyboardInput.LEFT
+                            # Handle other sequences if needed
+                            return '\x1b[' + ch3
+                        else:
+                            return '\x1b['
+                    else:
+                        # ESC followed by something else
+                        return KeyboardInput.ESC
                 else:
+                    # Just ESC key by itself
                     return KeyboardInput.ESC
 
             # Handle special characters
@@ -63,6 +82,10 @@ class KeyboardInput:
 
             return ch
 
+        except Exception as e:
+            # On any error, restore terminal and re-raise
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+            raise
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
 

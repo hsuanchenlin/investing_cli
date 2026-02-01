@@ -1,10 +1,19 @@
 """
-Keyboard input handling with arrow key support
+Keyboard input handling with arrow key support (readchar fallback)
+NOTE: This is a fallback for systems where termios doesn't work.
+The native implementation (keyboard_native.py) is preferred.
 """
 
 import sys
-import readchar
 from typing import Optional, List, Tuple
+
+try:
+    import readchar
+    READCHAR_AVAILABLE = True
+except ImportError:
+    READCHAR_AVAILABLE = False
+    # If readchar isn't available, this module will fail
+    # The main.py should use keyboard_native instead
 
 
 class KeyboardInput:
