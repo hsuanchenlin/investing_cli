@@ -67,10 +67,17 @@ class KeyboardInput:
         Returns:
             The key of selected item, or None if cancelled
         """
+        import os
+        first_draw = True
+
         while True:
-            # Clear previous output (move cursor up)
-            if current > 0:
-                print(f'\033[{len(items) + 2}A', end='')
+            # Clear screen and redraw (simpler and more reliable than cursor positioning)
+            if not first_draw:
+                # Move cursor up and clear
+                lines_to_clear = len(items) + 4  # menu items + borders + help text
+                print(f'\033[{lines_to_clear}A', end='')  # Move cursor up
+                print('\033[J', end='')  # Clear from cursor to end of screen
+            first_draw = False
 
             # Draw menu with highlight
             print("\n┌────────────────────────────────────────────────────────────────────────────┐")
@@ -92,7 +99,10 @@ class KeyboardInput:
             # Get key
             key = KeyboardInput.get_key()
 
-            if key == KeyboardInput.UP:
+            # Ignore left/right arrow keys
+            if key == KeyboardInput.LEFT or key == KeyboardInput.RIGHT:
+                continue
+            elif key == KeyboardInput.UP:
                 current = (current - 1) % len(items)
             elif key == KeyboardInput.DOWN:
                 current = (current + 1) % len(items)
