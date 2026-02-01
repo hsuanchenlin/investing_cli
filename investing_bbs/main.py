@@ -22,7 +22,13 @@ from datetime import datetime
 
 from .api import InvestingAPI
 from .ui import BBSInterface
-from .keyboard import KeyboardInput
+
+# Use native keyboard implementation (more reliable than readchar)
+try:
+    from .keyboard_native import KeyboardInput
+except ImportError:
+    # Fallback to readchar version if termios not available (Windows)
+    from .keyboard import KeyboardInput
 
 console = Console()
 
